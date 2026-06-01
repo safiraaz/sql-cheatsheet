@@ -10,21 +10,21 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 <style>
 :root {
-  --bg:#ffffff;--bg2:#f7f6f3;--bg3:#f0efe9;
-  --border:#e2e0d8;--border2:#cccac0;
-  --text:#1a1a18;--text2:#5a5a55;--text3:#888880;
-  --blue:#185FA5;--blue-bg:#E6F1FB;--blue-text:#0C447C;
-  --green-bg:#EAF3DE;--green-text:#27500A;
-  --amber-bg:#FAEEDA;--amber-text:#633806;
-  --red-bg:#FCEBEB;--red-text:#791F1F;
-  --purple-bg:#EEEDFE;--purple-text:#3C3489;
-  --teal-bg:#E1F5EE;--teal-text:#0F6E56;
-  --pink-bg:#FBEAF0;--pink-text:#72243E;
-  --gray-bg:#F1EFE8;--gray-text:#444441;
-  --kw:#185FA5;--str:#3B6D11;--num:#BA7517;--cmt:#888880;
-  --radius:10px;--radius-sm:6px;
-  --font:'DM Sans',system-ui,-apple-system,sans-serif;
-  --mono:'JetBrains Mono','Fira Code',monospace;
+--bg:#ffffff;--bg2:#f7f6f3;--bg3:#f0efe9;
+--border:#e2e0d8;--border2:#cccac0;
+--text:#1a1a18;--text2:#5a5a55;--text3:#888880;
+--blue:#185FA5;--blue-bg:#E6F1FB;--blue-text:#0C447C;
+--green-bg:#EAF3DE;--green-text:#27500A;
+--amber-bg:#FAEEDA;--amber-text:#633806;
+--red-bg:#FCEBEB;--red-text:#791F1F;
+--purple-bg:#EEEDFE;--purple-text:#3C3489;
+--teal-bg:#E1F5EE;--teal-text:#0F6E56;
+--pink-bg:#FBEAF0;--pink-text:#72243E;
+--gray-bg:#F1EFE8;--gray-text:#444441;
+--kw:#185FA5;--str:#3B6D11;--num:#BA7517;--cmt:#888880;
+--radius:10px;--radius-sm:6px;
+--font:'DM Sans',system-ui,-apple-system,sans-serif;
+--mono:'JetBrains Mono','Fira Code',monospace;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{font-size:14px}
@@ -42,7 +42,7 @@ h1{font-size:22px;font-weight:500;margin-bottom:4px}
 .cat-btn.on{background:var(--blue-bg);color:var(--blue-text);border-color:#85B7EB}
 .meta-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px}
 .count{font-size:12px;color:var(--text3)}
-.toolbar{display:flex;gap:6px}
+.toolbar{display:flex;gap:6px;align-items:center}
 .add-btn{display:flex;align-items:center;gap:5px;padding:6px 14px;border-radius:var(--radius-sm);border:1px solid var(--border2);background:var(--bg);color:var(--text2);font-size:12px;font-family:var(--font);cursor:pointer;transition:all .15s}
 .add-btn:hover{background:var(--bg2)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:10px}
@@ -85,6 +85,7 @@ h1{font-size:22px;font-weight:500;margin-bottom:4px}
 .detail-panel{padding:0 12px;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .2s}
 .detail-panel.open{max-height:700px;padding:10px 12px}
 .detail-content{font-size:12px;color:var(--text);line-height:1.7;white-space:pre-wrap;font-family:var(--font)}
+
 /* Modal shared */
 .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:100;align-items:center;justify-content:center;padding:20px}
 .modal-bg.show{display:flex}
@@ -101,23 +102,61 @@ h1{font-size:22px;font-weight:500;margin-bottom:4px}
 .modal-actions button{font-size:12px;padding:6px 16px;border-radius:var(--radius-sm);border:1px solid var(--border2);background:var(--bg);font-family:var(--font);cursor:pointer;color:var(--text)}
 .modal-actions .confirm-btn{background:var(--blue-bg);color:var(--blue-text);border-color:#85B7EB}
 .modal-actions .danger-btn{background:var(--red-bg);color:var(--red-text);border-color:#E8A2A2}
+
 /* Guide */
 .guide{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;margin-bottom:16px;font-size:12.5px;color:var(--text2);line-height:1.7;position:relative}
 .guide strong{color:var(--text);font-weight:500}
 .guide-close{position:absolute;top:10px;right:12px;background:transparent;border:none;cursor:pointer;color:var(--text3);font-size:16px;line-height:1}
-@media print{.controls,.cats,.meta-bar,.guide,.modal-bg,.card-edit-btn{display:none!important}body{padding:16px}.card{break-inside:avoid}}
+
+/* ── ADMIN LOGIN BUTTON (pojok kanan bawah, subtle) ── */
+#admin-fab{
+  position:fixed;bottom:20px;right:20px;z-index:200;
+  width:32px;height:32px;border-radius:50%;
+  background:var(--bg2);border:1px solid var(--border);
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  color:var(--text3);font-size:15px;
+  transition:all .2s;opacity:0.4;
+}
+#admin-fab:hover{opacity:1;background:var(--blue-bg);color:var(--blue-text);border-color:#85B7EB}
+
+/* Login modal khusus — lebih kecil */
+#login-modal .modal{max-width:360px}
+.login-error{font-size:12px;color:var(--red-text);margin-top:6px;display:none}
+
+/* Admin badge di header */
+#admin-badge{
+  display:none;align-items:center;gap:6px;
+  font-size:11px;color:var(--teal-text);
+  background:var(--teal-bg);border:1px solid #7DC9AF;
+  border-radius:20px;padding:3px 10px;
+}
+#admin-badge button{
+  background:none;border:none;cursor:pointer;
+  font-size:11px;color:var(--teal-text);font-family:var(--font);
+  padding:0;text-decoration:underline;
+}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+
+@media print{.controls,.cats,.meta-bar,.guide,.modal-bg,.card-edit-btn,#admin-fab,#admin-badge{display:none!important}body{padding:16px}.card{break-inside:avoid}}
 </style>
 </head>
 <body>
 
-<h1>SQL Query Cheatsheet</h1>
-<p class="subtitle">Referensi lengkap SQL — DDL, DML, DQL, JOIN, Agregasi, Subquery, Advanced, String</p>
+<div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:4px">
+  <div>
+    <h1>SQL Query Cheatsheet</h1>
+    <p class="subtitle">Referensi lengkap SQL — DDL, DML, DQL, JOIN, Agregasi, Subquery, Advanced, String</p>
+  </div>
+  <div id="admin-badge">
+    <i class="ti ti-shield-check"></i> Admin
+    <button onclick="adminLogout()">Logout</button>
+  </div>
+</div>
 
 <div class="guide" id="guide">
   <button class="guide-close" onclick="document.getElementById('guide').style.display='none'" aria-label="Tutup"><i class="ti ti-x"></i></button>
   <strong>Cara pakai:</strong> Filter per kategori atau cari nama query di kotak pencarian.<br>
-  <strong>Edit kartu:</strong> Hover kartu → klik ikon <i class="ti ti-edit" style="font-size:12px"></i> untuk edit semua isi (nama, kode, deskripsi, tips, detail) atau <i class="ti ti-trash" style="font-size:12px"></i> untuk hapus.<br>
-  <strong>Tambah query baru:</strong> Klik <strong>+ Tambah Query</strong> di pojok kanan.<br>
   Badge <span class="badge b-mysql" style="display:inline-block">MySQL</span> <span class="badge b-pg" style="display:inline-block">PostgreSQL</span> <span class="badge b-both" style="display:inline-block">MySQL + PG</span> = kompatibilitas database.
 </div>
 
@@ -127,16 +166,45 @@ h1{font-size:22px;font-weight:500;margin-bottom:4px}
     <input type="text" id="q" placeholder="Cari query... (misal: SELECT, JOIN, LENGTH)" oninput="render()">
   </div>
 </div>
+
 <div class="cats" id="cats"></div>
+
 <div class="meta-bar">
   <span class="count" id="cnt"></span>
   <div class="toolbar">
     <button class="add-btn" id="seed-btn" onclick="seedDB()" style="background:var(--amber-bg);color:var(--amber-text);border-color:#E8C87A;display:none"><i class="ti ti-database-import"></i> Seed DB</button>
     <div id="load-indicator" style="display:none;align-items:center;gap:6px;font-size:12px;color:var(--text3)"><i class="ti ti-loader-2" style="animation:spin 1s linear infinite"></i> Menyimpan...</div>
-    <button class="add-btn" onclick="openAddModal()"><i class="ti ti-plus"></i> Tambah Query</button>
+    <!-- Tombol Tambah — hanya muncul kalau admin login -->
+    <button class="add-btn" id="btn-add-card" onclick="openAddModal()" style="display:none"><i class="ti ti-plus"></i> Tambah Query</button>
   </div>
 </div>
+
 <div class="grid" id="grid"></div>
+
+<!-- TOMBOL ADMIN (pojok kanan bawah, kecil & subtle) -->
+<button id="admin-fab" onclick="openLoginModal()" title="Admin login">
+  <i class="ti ti-lock"></i>
+</button>
+
+<!-- LOGIN MODAL -->
+<div class="modal-bg" id="login-modal">
+  <div class="modal" style="max-width:340px">
+    <h3>Admin Login</h3>
+    <div class="field">
+      <label>Email</label>
+      <input type="email" id="login-email" placeholder="email@kamu.com" autocomplete="username">
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <div class="login-error" id="login-err"></div>
+    <div class="modal-actions"><div></div><div class="right">
+      <button onclick="closeLoginModal()">Batal</button>
+      <button class="confirm-btn" id="login-btn" onclick="doLogin()">Masuk</button>
+    </div></div>
+  </div>
+</div>
 
 <!-- ADD MODAL -->
 <div class="modal-bg" id="add-modal">
@@ -187,6 +255,110 @@ h1{font-size:22px;font-weight:500;margin-bottom:4px}
 </div>
 
 <script>
+// ── SUPABASE CONFIG ───────────────────────────────────
+const SUPABASE_URL = 'https://ownyjduxhwyhnnqpqkza.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93bnlqZHV4aHd5aG5ucXBxa3phIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAzMDM0MTEsImV4cCI6MjA5NTg3OTQxMX0.PMFSl1v-bU_axuD0n0lmTKpOGudNPhzZ1hLuuxGa8rk';
+const API      = `${SUPABASE_URL}/rest/v1/cards`;
+const AUTH_URL = `${SUPABASE_URL}/auth/v1`;
+
+// ── STATE ─────────────────────────────────────────────
+let accessToken = null;   // null = belum login
+let isAdmin = false;
+
+// ── HEADERS ───────────────────────────────────────────
+function getHeaders(write = false) {
+  const h = {
+    'apikey': SUPABASE_KEY,
+    'Authorization': `Bearer ${write && accessToken ? accessToken : SUPABASE_KEY}`,
+    'Content-Type': 'application/json',
+    'Prefer': 'return=representation'
+  };
+  return h;
+}
+
+// ── AUTH ──────────────────────────────────────────────
+function openLoginModal() {
+  if (isAdmin) return; // sudah login, tidak perlu buka lagi
+  document.getElementById('login-modal').classList.add('show');
+  setTimeout(() => document.getElementById('login-email').focus(), 100);
+}
+function closeLoginModal() {
+  document.getElementById('login-modal').classList.remove('show');
+  document.getElementById('login-err').style.display = 'none';
+}
+
+async function doLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const pass  = document.getElementById('login-pass').value;
+  const errEl = document.getElementById('login-err');
+  const btn   = document.getElementById('login-btn');
+  if (!email || !pass) { showErr('Email dan password wajib diisi.'); return; }
+
+  btn.textContent = 'Masuk...';
+  btn.disabled = true;
+  errEl.style.display = 'none';
+
+  try {
+    const res = await fetch(`${AUTH_URL}/token?grant_type=password`, {
+      method: 'POST',
+      headers: { 'apikey': SUPABASE_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password: pass })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error_description || data.msg || 'Login gagal');
+
+    accessToken = data.access_token;
+    isAdmin = true;
+    closeLoginModal();
+    setAdminUI(true);
+    toast('Login berhasil! Selamat datang, admin.', 'ok');
+    render();
+  } catch(e) {
+    showErr(e.message);
+  } finally {
+    btn.textContent = 'Masuk';
+    btn.disabled = false;
+  }
+
+  function showErr(msg) {
+    errEl.textContent = msg;
+    errEl.style.display = 'block';
+  }
+}
+
+function adminLogout() {
+  accessToken = null;
+  isAdmin = false;
+  setAdminUI(false);
+  toast('Logout berhasil.', 'info');
+  render();
+}
+
+function setAdminUI(on) {
+  // Badge admin di header
+  document.getElementById('admin-badge').style.display = on ? 'flex' : 'none';
+  // Tombol tambah query
+  document.getElementById('btn-add-card').style.display = on ? 'flex' : 'none';
+  // Tombol FAB: ubah ikon
+  const fab = document.getElementById('admin-fab');
+  fab.innerHTML = on
+    ? '<i class="ti ti-shield-check"></i>'
+    : '<i class="ti ti-lock"></i>';
+  fab.title = on ? 'Sudah login sebagai admin' : 'Admin login';
+  fab.onclick = on ? adminLogout : openLoginModal;
+  fab.style.opacity = on ? '0.9' : '0.4';
+  if (on) {
+    fab.style.background = 'var(--teal-bg)';
+    fab.style.color = 'var(--teal-text)';
+    fab.style.borderColor = '#7DC9AF';
+  } else {
+    fab.style.background = 'var(--bg2)';
+    fab.style.color = 'var(--text3)';
+    fab.style.borderColor = 'var(--border)';
+  }
+}
+
+// ── DATA ──────────────────────────────────────────────
 const CATS = ["Semua","DDL","DML","DQL","JOIN","Agregasi","Subquery","Advanced","String"];
 const badgeMap = {DDL:'b-ddl',DML:'b-dml',DQL:'b-dql',JOIN:'b-join',Agregasi:'b-agg',Subquery:'b-sub',Advanced:'b-adv',String:'b-str'};
 const compatBadge = {
@@ -194,598 +366,18 @@ const compatBadge = {
   pg:'<span class="badge b-pg">PostgreSQL</span>',
   both:'<span class="badge b-both">MySQL + PG</span>'
 };
-
 let activeCatVal = 'Semua';
-
-// All cards in one mutable array (DATA entries + extras all live here)
-let CARDS = [
-  {cat:'DDL',compat:'both',name:'CREATE TABLE',desc:'Bikin tabel baru dengan mendefinisikan kolom, tipe data, dan constraint.',tip:'Pakai IF NOT EXISTS agar tidak error jika tabel sudah ada.',code:`CREATE TABLE IF NOT EXISTS mahasiswa (
-  id         INT PRIMARY KEY AUTO_INCREMENT,
-  nama       VARCHAR(100) NOT NULL,
-  email      VARCHAR(150) UNIQUE,
-  ipk        DECIMAL(3,2) DEFAULT 0.00,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);`,detail:`Urutan penulisan yang disarankan:
-1. Kolom ID / Primary Key di atas
-2. Kolom data utama
-3. Kolom foreign key
-4. Kolom timestamp di paling bawah (created_at, updated_at)
-
-Perbedaan MySQL vs PostgreSQL:
-• AUTO_INCREMENT → PostgreSQL pakai SERIAL atau GENERATED ALWAYS AS IDENTITY
-• TIMESTAMP DEFAULT CURRENT_TIMESTAMP → sama di keduanya`},
-
-  {cat:'DDL',compat:'both',name:'ALTER TABLE',desc:'Ubah struktur tabel — tambah kolom, ganti tipe, hapus kolom.',tip:'Hati-hati di production! Selalu backup dulu sebelum ALTER.',code:`-- Tambah kolom
-ALTER TABLE mahasiswa ADD COLUMN jurusan VARCHAR(50);
-
--- Ganti tipe (MySQL)
-ALTER TABLE mahasiswa MODIFY COLUMN jurusan TEXT;
-
--- Ganti tipe (PostgreSQL)
-ALTER TABLE mahasiswa ALTER COLUMN jurusan TYPE TEXT;
-
--- Hapus kolom
-ALTER TABLE mahasiswa DROP COLUMN jurusan;`,detail:`Perbedaan MySQL vs PostgreSQL:
-• MySQL: MODIFY COLUMN untuk ganti tipe
-• PostgreSQL: ALTER COLUMN ... TYPE untuk ganti tipe
-• Keduanya: ADD COLUMN dan DROP COLUMN syntax-nya sama
-
-Di production, ALTER TABLE bisa lock tabel sementara.
-Untuk tabel besar, pertimbangkan pt-online-schema-change.`},
-
-  {cat:'DDL',compat:'both',name:'DROP TABLE',desc:'Hapus tabel beserta semua datanya. Permanen, tidak bisa di-undo.',tip:'Pakai IF EXISTS biar tidak error kalau tabel tidak ada.',code:`DROP TABLE IF EXISTS mahasiswa;
-
--- Hapus banyak tabel sekaligus
-DROP TABLE IF EXISTS nilai, mahasiswa, jurusan;`,detail:`DROP TABLE vs TRUNCATE TABLE:
-• DROP TABLE: hapus tabel + strukturnya. Meja dibuang.
-• TRUNCATE TABLE: hapus semua isi, struktur tetap ada.
-• DELETE FROM tanpa WHERE: sama efeknya tapi lebih lambat.`},
-
-  {cat:'DDL',compat:'both',name:'CREATE INDEX',desc:'Bikin index untuk mempercepat query di kolom yang sering di-filter atau JOIN.',tip:'Index mempercepat SELECT tapi sedikit memperlambat INSERT/UPDATE/DELETE.',code:`-- Index biasa
-CREATE INDEX idx_nama ON mahasiswa(nama);
-
--- Index unik
-CREATE UNIQUE INDEX idx_email ON mahasiswa(email);
-
--- Index gabungan
-CREATE INDEX idx_nama_jurusan ON mahasiswa(nama, jurusan);
-
--- Hapus index (MySQL)
-DROP INDEX idx_nama ON mahasiswa;`,detail:`Kapan pakai index:
-✓ Kolom yang sering ada di WHERE
-✓ Kolom yang sering di-JOIN
-✓ Kolom yang sering di-ORDER BY
-✗ Kolom yang jarang di-query
-✗ Jangan terlalu banyak index satu tabel
-
-PostgreSQL punya GIN (array/JSON) dan GiST (geometri).
-MySQL punya FULLTEXT index untuk pencarian teks.`},
-
-  {cat:'DDL',compat:'both',name:'TRUNCATE',desc:'Kosongkan semua isi tabel. Struktur dan definisi kolom tetap ada.',tip:'Lebih cepat dari DELETE tanpa WHERE. Auto-increment direset ke 1.',code:`TRUNCATE TABLE mahasiswa;`,detail:`MySQL: TRUNCATE tidak bisa di-rollback (DDL statement).
-PostgreSQL: TRUNCATE bisa di dalam transaksi dan bisa di-rollback.
-
-Kalau ada FOREIGN KEY yang mereferensikan tabel ini, TRUNCATE gagal.
-Solusi: TRUNCATE TABLE child_table, parent_table; (dari child ke parent)`},
-
-  {cat:'DML',compat:'both',name:'INSERT INTO',desc:'Masukkan satu atau beberapa baris data baru ke dalam tabel.',tip:'Multi-row INSERT jauh lebih cepat daripada INSERT satu per satu dalam loop.',code:`-- Satu baris
-INSERT INTO mahasiswa (nama, email, ipk)
-VALUES ('Andi Pratama', 'andi@mail.com', 3.75);
-
--- Banyak baris sekaligus
-INSERT INTO mahasiswa (nama, email) VALUES
-  ('Budi Santoso', 'budi@mail.com'),
-  ('Citra Dewi',   'citra@mail.com');
-
--- Insert dari hasil SELECT
-INSERT INTO arsip (nama, email)
-SELECT nama, email FROM mahasiswa WHERE lulus = 1;`,detail:`INSERT ... SELECT berguna untuk:
-• Duplikasi data ke tabel arsip/backup
-• Migrasi data antar tabel
-• Mengisi tabel summary dari tabel detail`},
-
-  {cat:'DML',compat:'both',name:'UPDATE',desc:'Ubah nilai data yang sudah ada di tabel.',tip:'SELALU pakai WHERE! Tanpa WHERE semua baris diupdate.',code:`-- Update satu kolom
-UPDATE mahasiswa SET jurusan = 'Sistem Informasi' WHERE id = 5;
-
--- Update banyak kolom
-UPDATE mahasiswa
-SET jurusan    = 'Informatika',
-    ipk        = 3.80,
-    updated_at = CURRENT_TIMESTAMP
-WHERE nama = 'Andi Pratama';`,detail:`Trik aman sebelum UPDATE di production:
-1. Jalankan SELECT dulu dengan WHERE yang sama
-2. Cek data mana yang akan berubah
-3. Bungkus dalam TRANSACTION, baru COMMIT atau ROLLBACK`},
-
-  {cat:'DML',compat:'both',name:'DELETE',desc:'Hapus satu atau beberapa baris data dari tabel.',tip:'SELALU pakai WHERE! Tanpa WHERE semua baris dihapus.',code:`DELETE FROM mahasiswa WHERE id = 5;
-
--- Dengan kondisi
-DELETE FROM mahasiswa
-WHERE status = 'nonaktif' AND created_at < '2020-01-01';
-
--- Dengan subquery
-DELETE FROM nilai
-WHERE mahasiswa_id NOT IN (SELECT id FROM mahasiswa);`,detail:`DELETE vs TRUNCATE:
-• DELETE: bisa pakai WHERE, bisa di-rollback, lebih lambat massal
-• TRUNCATE: tanpa WHERE, lebih cepat, reset auto_increment
-
-Kalau ada FK constraint, DELETE gagal jika ada child records.
-Solusi: hapus child dulu, atau set ON DELETE CASCADE di FK.`},
-
-  {cat:'DML',compat:'both',name:'UPSERT',desc:'Insert kalau belum ada, UPDATE kalau sudah ada — dalam satu query.',tip:'Sangat berguna untuk sinkronisasi data dan idempotent operations.',code:`-- MySQL: ON DUPLICATE KEY UPDATE
-INSERT INTO mahasiswa (id, nama, email)
-VALUES (1, 'Andi Update', 'andi@mail.com')
-ON DUPLICATE KEY UPDATE
-  nama  = VALUES(nama),
-  email = VALUES(email);
-
--- PostgreSQL: ON CONFLICT DO UPDATE
-INSERT INTO mahasiswa (id, nama, email)
-VALUES (1, 'Andi Update', 'andi@mail.com')
-ON CONFLICT (id) DO UPDATE SET
-  nama  = EXCLUDED.nama,
-  email = EXCLUDED.email;`,detail:`Perbedaan MySQL vs PostgreSQL:
-• MySQL: ON DUPLICATE KEY UPDATE — trigger jika ada duplicate di PK atau UNIQUE key
-• PostgreSQL: ON CONFLICT (kolom) DO UPDATE SET — lebih eksplisit
-• PostgreSQL juga punya ON CONFLICT DO NOTHING untuk skip duplikat`},
-
-  {cat:'DQL',compat:'both',name:'SELECT dasar',desc:'Ambil data dari tabel — inti dari semua query SQL.',tip:'Sebutkan nama kolom spesifik di production, hindari SELECT *.',code:`-- Semua kolom (hanya untuk eksplorasi)
-SELECT * FROM mahasiswa;
-
--- Kolom tertentu
-SELECT nama, jurusan, ipk FROM mahasiswa;
-
--- Dengan alias
-SELECT m.nama AS nama_mhs, m.ipk AS nilai_ipk
-FROM mahasiswa AS m;
-
--- Kolom kalkulasi
-SELECT nama, ipk * 25 AS poin_total FROM mahasiswa;`,detail:`SELECT * di production bermasalah karena:
-• Mengambil data yang tidak perlu (buang bandwidth)
-• Kalau struktur tabel berubah, kode bisa error
-• Menyulitkan pembacaan — tidak jelas kolom apa yang dipakai`},
-
-  {cat:'DQL',compat:'both',name:'WHERE',desc:'Filter baris berdasarkan kondisi. Operator: =, !=, <, >, BETWEEN, IN, LIKE, IS NULL.',tip:'AND dievaluasi sebelum OR. Pakai kurung untuk kejelasan.',code:`SELECT * FROM mahasiswa WHERE ipk > 3.5;
-
--- BETWEEN (inklusif)
-SELECT * FROM mahasiswa WHERE ipk BETWEEN 3.0 AND 3.5;
-
--- IN
-SELECT * FROM mahasiswa
-WHERE jurusan IN ('Informatika', 'Sistem Informasi');
-
--- LIKE
-SELECT * FROM mahasiswa WHERE nama LIKE 'A%';
-SELECT * FROM mahasiswa WHERE email LIKE '%@gmail.com';`,detail:`Pola LIKE:
-• % = nol atau lebih karakter apapun
-• _ = tepat satu karakter
-
-Contoh: LIKE '_ndi%' cocok 'Andi', 'Endi', bukan 'Budi'
-
-LIKE case-sensitive di PostgreSQL, case-insensitive di MySQL.
-PostgreSQL punya ILIKE untuk case-insensitive matching.`},
-
-  {cat:'DQL',compat:'both',name:'ORDER BY',desc:'Urutkan hasil query. ASC = kecil ke besar, DESC = besar ke kecil.',tip:'Tanpa ORDER BY, urutan baris tidak dijamin konsisten.',code:`SELECT * FROM mahasiswa ORDER BY ipk DESC;
-
--- Urut dua kolom
-SELECT * FROM mahasiswa
-ORDER BY jurusan ASC, ipk DESC;
-
--- NULL di akhir (PostgreSQL)
-SELECT * FROM mahasiswa ORDER BY ipk DESC NULLS LAST;`,detail:`MySQL: NULL muncul di awal untuk ASC, di akhir untuk DESC.
-PostgreSQL: kontrol eksplisit dengan NULLS FIRST atau NULLS LAST.
-
-MySQL untuk NULL ke akhir pada ASC:
-ORDER BY ipk IS NULL ASC, ipk ASC`},
-
-  {cat:'DQL',compat:'both',name:'LIMIT & OFFSET',desc:'Batasi jumlah baris hasil. OFFSET untuk paginasi.',tip:'OFFSET besar lambat. Untuk dataset besar, pakai keyset pagination (WHERE id > last_id).',code:`-- 10 data pertama
-SELECT * FROM mahasiswa LIMIT 10;
-
--- Halaman ke-3 (10 item per halaman)
-SELECT * FROM mahasiswa ORDER BY id LIMIT 10 OFFSET 20;
-
--- PostgreSQL: syntax standar SQL
-SELECT * FROM mahasiswa ORDER BY id FETCH FIRST 10 ROWS ONLY;`,detail:`Formula OFFSET: (halaman - 1) × items_per_halaman
-
-Masalah OFFSET besar: database tetap baca dan buang semua baris sebelumnya.
-Solusi keyset pagination:
-  WHERE id > 500 ORDER BY id LIMIT 10`},
-
-  {cat:'DQL',compat:'both',name:'DISTINCT',desc:'Hilangkan duplikat dari hasil query.',tip:'DISTINCT di banyak kolom = kombinasi unik dari kolom-kolom tersebut.',code:`SELECT DISTINCT jurusan FROM mahasiswa;
-
--- Kombinasi unik dua kolom
-SELECT DISTINCT jurusan, angkatan FROM mahasiswa;
-
--- Hitung jumlah nilai unik
-SELECT COUNT(DISTINCT jurusan) AS jml_jurusan FROM mahasiswa;`,detail:`DISTINCT vs GROUP BY:
-• DISTINCT: lebih simpel, khusus deduplikasi
-• GROUP BY: lebih fleksibel, bisa tambah fungsi agregasi
-
-SELECT DISTINCT jurusan FROM mahasiswa
-= SELECT jurusan FROM mahasiswa GROUP BY jurusan`},
-
-  {cat:'JOIN',compat:'both',name:'INNER JOIN',desc:'Ambil baris yang cocok di KEDUA tabel. Baris tidak match tidak muncul.',tip:'Paling umum dipakai. Hanya data yang ada di kedua tabel yang tampil.',code:`SELECT m.nama, n.mata_kuliah, n.nilai
-FROM mahasiswa m
-INNER JOIN nilai n ON m.id = n.mahasiswa_id;
-
--- Join tiga tabel
-SELECT m.nama, mk.nama_mk, n.nilai
-FROM mahasiswa m
-INNER JOIN nilai n     ON m.id = n.mahasiswa_id
-INNER JOIN mata_kuliah mk ON n.mk_id = mk.id;`,detail:`INNER JOIN sama dengan JOIN (kata INNER opsional).
-Setiap JOIN butuh kondisi ON yang jelas.
-JOIN tanpa ON atau ON 1=1 jadi CROSS JOIN — hasilkan semua kombinasi.`},
-
-  {cat:'JOIN',compat:'both',name:'LEFT JOIN',desc:'Semua baris tabel kiri muncul. Baris kanan NULL jika tidak cocok.',tip:'Cocok untuk "tampilkan semua A, sertakan B jika ada".',code:`-- Semua mahasiswa, tampilkan nilai jika ada
-SELECT m.nama, n.nilai
-FROM mahasiswa m
-LEFT JOIN nilai n ON m.id = n.mahasiswa_id;
-
--- Mahasiswa yang BELUM punya nilai
-SELECT m.nama
-FROM mahasiswa m
-LEFT JOIN nilai n ON m.id = n.mahasiswa_id
-WHERE n.mahasiswa_id IS NULL;`,detail:`LEFT JOIN + WHERE IS NULL: cara efisien cari data yang tidak ada di tabel lain.
-Lebih cepat dari NOT IN untuk tabel besar.
-
-RIGHT JOIN adalah kebalikannya — semua baris kanan muncul.
-Lebih baik balik urutan tabel dan pakai LEFT JOIN agar konsisten.`},
-
-  {cat:'JOIN',compat:'both',name:'SELF JOIN',desc:'Join tabel dengan dirinya sendiri. Klasik untuk data hierarki.',tip:'Beri alias berbeda untuk dua "instance" tabel yang sama.',code:`-- Karyawan + nama managernya
-SELECT k.nama AS karyawan, m.nama AS manager
-FROM karyawan k
-LEFT JOIN karyawan m ON k.manager_id = m.id;`,detail:`Self JOIN berguna untuk:
-• Struktur organisasi (karyawan-manager)
-• Pohon kategori (kategori-subkategori)
-• Perbandingan antar baris dalam tabel yang sama`},
-
-  {cat:'JOIN',compat:'both',name:'CROSS JOIN',desc:'Hasilkan semua kombinasi dari dua tabel (perkalian Kartesian).',tip:'Hati-hati: 100 × 100 baris = 10.000 baris.',code:`SELECT w.nama AS warna, u.nama AS ukuran
-FROM warna CROSS JOIN ukuran;`,detail:`Use case nyata CROSS JOIN:
-• Generate kombinasi produk (warna × ukuran × bahan)
-• Buat kalender — CROSS JOIN tabel bulan dan tahun
-• Testing data — kombinasikan semua test case`},
-
-  {cat:'Agregasi',compat:'both',name:'COUNT, SUM, AVG, MIN, MAX',desc:'Fungsi agregasi untuk menghitung statistik dari sekumpulan baris.',tip:'COUNT(*) hitung semua baris. COUNT(kolom) skip NULL.',code:`SELECT
-  COUNT(*)               AS total_mhs,
-  COUNT(ipk)             AS yg_punya_ipk,
-  COUNT(DISTINCT jurusan) AS jml_jurusan,
-  SUM(sks)               AS total_sks,
-  AVG(ipk)               AS rata_ipk,
-  MAX(ipk)               AS tertinggi,
-  MIN(ipk)               AS terendah,
-  ROUND(AVG(ipk), 2)     AS rata_bulat
-FROM mahasiswa;`,detail:`COUNT(*) vs COUNT(kolom):
-• COUNT(*): hitung semua baris termasuk NULL
-• COUNT(kolom): hitung baris di mana kolom NOT NULL
-
-ROUND(AVG(ipk), 2) → bulatkan ke 2 desimal
-Tersedia di MySQL dan PostgreSQL dengan syntax sama.`},
-
-  {cat:'Agregasi',compat:'both',name:'GROUP BY',desc:'Kelompokkan baris berdasarkan kolom, lalu hitung agregasi per grup.',tip:'Kolom di SELECT yang bukan fungsi agregasi WAJIB ada di GROUP BY.',code:`SELECT jurusan,
-       COUNT(*)  AS jumlah,
-       AVG(ipk)  AS rata_ipk,
-       MAX(ipk)  AS terbaik
-FROM mahasiswa
-GROUP BY jurusan
-ORDER BY jumlah DESC;`,detail:`Urutan eksekusi SQL:
-1. FROM
-2. WHERE — filter baris
-3. GROUP BY — kelompokkan
-4. HAVING — filter grup
-5. SELECT — pilih kolom
-6. ORDER BY — urutkan
-7. LIMIT — batasi
-
-Karena itu WHERE tidak bisa pakai alias dari SELECT,
-dan HAVING harus dipakai setelah GROUP BY.`},
-
-  {cat:'Agregasi',compat:'both',name:'HAVING',desc:'Filter hasil GROUP BY. Seperti WHERE tapi untuk grup, bukan baris.',tip:'WHERE filter sebelum GROUP. HAVING filter setelah GROUP.',code:`-- Jurusan dengan lebih dari 10 mahasiswa
-SELECT jurusan, COUNT(*) AS jml
-FROM mahasiswa
-GROUP BY jurusan
-HAVING COUNT(*) > 10;
-
--- Kombinasi WHERE + HAVING
-SELECT jurusan, AVG(ipk) AS avg_ipk
-FROM mahasiswa
-WHERE angkatan >= 2020
-GROUP BY jurusan
-HAVING AVG(ipk) >= 3.0;`,detail:`Ingat — ini SALAH:
-  WHERE COUNT(*) > 10  ← error!
-
-Ini BENAR:
-  GROUP BY jurusan
-  HAVING COUNT(*) > 10`},
-
-  {cat:'Subquery',compat:'both',name:'Subquery di WHERE',desc:'Query di dalam query sebagai kondisi filter.',tip:'Kalau subquery return > 1 baris, pakai IN bukan =.',code:`-- IPK di atas rata-rata
-SELECT nama, ipk
-FROM mahasiswa
-WHERE ipk > (SELECT AVG(ipk) FROM mahasiswa);
-
--- Ada di tabel nilai
-SELECT nama FROM mahasiswa
-WHERE id IN (SELECT DISTINCT mahasiswa_id FROM nilai);
-
--- Tidak ada di tabel nilai
-SELECT nama FROM mahasiswa
-WHERE id NOT IN (SELECT DISTINCT mahasiswa_id FROM nilai);`,detail:`= vs IN:
-• = hanya cocok kalau subquery return tepat 1 nilai
-• IN cocok untuk subquery yang return banyak nilai
-
-NOT IN bermasalah kalau subquery ada NULL!
-NOT IN (1, 2, NULL) → tidak match dengan baris manapun.
-Lebih aman pakai NOT EXISTS.`},
-
-  {cat:'Subquery',compat:'both',name:'CTE (WITH … AS)',desc:'Common Table Expression — beri nama sementara pada subquery agar lebih mudah dibaca.',tip:'CTE bisa dipanggil berulang kali dalam satu query.',code:`WITH mahasiswa_aktif AS (
-  SELECT * FROM mahasiswa WHERE status = 'aktif'
-)
-SELECT jurusan, COUNT(*) AS jml
-FROM mahasiswa_aktif
-GROUP BY jurusan;
-
--- Multiple CTE
-WITH
-top_mhs AS (SELECT * FROM mahasiswa WHERE ipk >= 3.5),
-ringkasan AS (SELECT jurusan, COUNT(*) AS jml FROM top_mhs GROUP BY jurusan)
-SELECT * FROM ringkasan ORDER BY jml DESC;`,detail:`CTE vs Subquery di FROM — hasil sama, tapi CTE lebih readable:
-
-Subquery:
-SELECT jurusan, jml FROM (SELECT jurusan, COUNT(*) AS jml ...) AS r
-
-CTE:
-WITH r AS (SELECT jurusan, COUNT(*) AS jml ...)
-SELECT jurusan, jml FROM r
-
-MySQL 8.0+ dan PostgreSQL mendukung Recursive CTE untuk hierarki.`},
-
-  {cat:'Subquery',compat:'both',name:'EXISTS / NOT EXISTS',desc:'Cek apakah subquery menghasilkan minimal satu baris.',tip:'EXISTS berhenti di baris pertama — lebih efisien dari IN untuk tabel besar.',code:`-- Mahasiswa yang PUNYA nilai
-SELECT nama FROM mahasiswa m
-WHERE EXISTS (
-  SELECT 1 FROM nilai n WHERE n.mahasiswa_id = m.id
-);
-
--- Mahasiswa yang BELUM punya nilai
-SELECT nama FROM mahasiswa m
-WHERE NOT EXISTS (
-  SELECT 1 FROM nilai n WHERE n.mahasiswa_id = m.id
-);`,detail:`Kenapa SELECT 1 di dalam EXISTS?
-Yang dicek hanya apakah ada baris — nilainya tidak penting.
-SELECT 1, SELECT *, SELECT kolom → hasilnya sama untuk EXISTS.
-
-NOT EXISTS lebih aman dari NOT IN saat ada NULL di data.`},
-
-  {cat:'Advanced',compat:'both',name:'Window Functions',desc:'Hitung nilai berdasarkan baris-baris terkait tanpa menggabungkan seperti GROUP BY.',tip:'Tersedia di MySQL 8.0+ dan semua versi PostgreSQL modern.',code:`SELECT nama, jurusan, ipk,
-  RANK()       OVER (PARTITION BY jurusan ORDER BY ipk DESC) AS rank,
-  DENSE_RANK() OVER (PARTITION BY jurusan ORDER BY ipk DESC) AS dense_rank,
-  ROW_NUMBER() OVER (PARTITION BY jurusan ORDER BY ipk DESC) AS row_num
-FROM mahasiswa;
-
--- Running total
-SELECT nama, ipk,
-  SUM(ipk) OVER (ORDER BY id) AS running_total
-FROM mahasiswa;`,detail:`RANK vs DENSE_RANK vs ROW_NUMBER — data: 3.8, 3.8, 3.5
-RANK:        1, 1, 3   ← skip angka 2
-DENSE_RANK:  1, 1, 2   ← tidak skip
-ROW_NUMBER:  1, 2, 3   ← selalu unik
-
-LAG/LEAD — akses baris sebelum/sesudah:
-LAG(ipk, 1) OVER (ORDER BY id)  → IPK baris sebelumnya
-LEAD(ipk, 1) OVER (ORDER BY id) → IPK baris berikutnya`},
-
-  {cat:'Advanced',compat:'both',name:'CASE WHEN',desc:'Logika kondisional dalam query — seperti if/else di SQL.',tip:'Bisa dipakai di SELECT, WHERE, ORDER BY, dan dalam fungsi agregasi.',code:`SELECT nama, ipk,
-  CASE
-    WHEN ipk >= 3.75 THEN 'Cum Laude'
-    WHEN ipk >= 3.50 THEN 'Sangat Memuaskan'
-    WHEN ipk >= 3.00 THEN 'Memuaskan'
-    ELSE 'Cukup'
-  END AS predikat
-FROM mahasiswa;
-
--- CASE dalam agregasi
-SELECT jurusan,
-  COUNT(CASE WHEN ipk >= 3.5 THEN 1 END) AS cum_laude,
-  COUNT(CASE WHEN ipk < 3.5  THEN 1 END) AS reguler
-FROM mahasiswa GROUP BY jurusan;`,detail:`Dua bentuk CASE:
-1. Searched CASE — evaluasi kondisi boolean (seperti contoh)
-2. Simple CASE:
-   CASE status
-     WHEN 'aktif' THEN 'Masih Kuliah'
-     WHEN 'lulus' THEN 'Alumni'
-     ELSE 'Tidak Diketahui'
-   END`},
-
-  {cat:'Advanced',compat:'both',name:'TRANSACTION',desc:'Kelompokkan beberapa query menjadi satu unit atomik — semua berhasil atau semua dibatalkan.',tip:'Wajib untuk operasi finansial atau multi-tabel yang saling bergantung.',code:`BEGIN;
-
-UPDATE rekening SET saldo = saldo - 100000 WHERE id = 1;
-UPDATE rekening SET saldo = saldo + 100000 WHERE id = 2;
-
-COMMIT;    -- simpan perubahan
--- atau
-ROLLBACK;  -- batalkan semua
-
--- SAVEPOINT
-SAVEPOINT sp1;
-ROLLBACK TO SAVEPOINT sp1;`,detail:`Sifat ACID:
-• Atomicity: semua atau tidak sama sekali
-• Consistency: database tetap valid
-• Isolation: transaksi tidak saling interfere
-• Durability: setelah COMMIT data tidak hilang
-
-MySQL: BEGIN atau START TRANSACTION
-PostgreSQL: BEGIN (sama)`},
-
-  {cat:'Advanced',compat:'both',name:'VIEW',desc:'Simpan query SELECT sebagai tabel virtual yang bisa dipakai ulang.',tip:'View tidak menyimpan data — setiap kali dipanggil, query dijalankan ulang.',code:`CREATE VIEW mahasiswa_aktif AS
-SELECT nama, jurusan, ipk
-FROM mahasiswa WHERE status = 'aktif';
-
--- Pakai seperti tabel
-SELECT * FROM mahasiswa_aktif WHERE ipk > 3.5;
-
--- Update view
-CREATE OR REPLACE VIEW mahasiswa_aktif AS
-SELECT nama, jurusan, ipk, angkatan
-FROM mahasiswa WHERE status = 'aktif';
-
-DROP VIEW IF EXISTS mahasiswa_aktif;`,detail:`View vs Materialized View (PostgreSQL):
-• VIEW: query jalan tiap dipanggil, selalu fresh
-• MATERIALIZED VIEW: hasil disimpan fisik, perlu di-refresh manual
-  → lebih cepat untuk query berat yang jarang berubah
-
-MySQL tidak punya Materialized View bawaan.`},
-
-  {cat:'Advanced',compat:'both',name:'UNION & UNION ALL',desc:'Gabungkan hasil dari dua atau lebih SELECT.',tip:'Jumlah dan tipe kolom harus sama persis di semua bagian UNION.',code:`-- UNION: hapus duplikat
-SELECT nama FROM mahasiswa_s1
-UNION
-SELECT nama FROM mahasiswa_d3;
-
--- UNION ALL: pertahankan duplikat (lebih cepat)
-SELECT nama, 'S1' AS jenjang FROM mahasiswa_s1
-UNION ALL
-SELECT nama, 'D3' AS jenjang FROM mahasiswa_d3
-ORDER BY nama;`,detail:`Pakai UNION ALL kalau tidak ada duplikat atau duplikat tidak masalah — lebih cepat.
-Pakai UNION kalau perlu deduplikasi.
-
-ORDER BY dan LIMIT hanya bisa di akhir query terakhir.`},
-
-  {cat:'Advanced',compat:'both',name:'NULL handling',desc:'NULL bukan 0 atau string kosong — harus ditangani secara khusus.',tip:'Pakai IS NULL / IS NOT NULL, dan COALESCE untuk nilai default.',code:`SELECT * FROM mahasiswa WHERE ipk IS NULL;
-SELECT * FROM mahasiswa WHERE ipk IS NOT NULL;
-
--- COALESCE: ambil nilai pertama yang bukan NULL
-SELECT nama, COALESCE(ipk, 0) AS ipk_aman FROM mahasiswa;
-
--- NULLIF: kembalikan NULL kalau dua nilai sama
-SELECT NULLIF(skor, 0) FROM ujian;`,detail:`COALESCE(a, b, c): standar SQL, tersedia di semua DB.
-IFNULL(a, b): MySQL only, hanya 2 argumen.
-NVL(a, b): Oracle only.
-
-Aritmetika dengan NULL selalu menghasilkan NULL:
-5 + NULL = NULL, NULL * 10 = NULL`},
-
-  {cat:'String',compat:'both',name:'LENGTH / CHAR_LENGTH',desc:'Hitung jumlah karakter atau byte dalam string.',tip:'CHAR_LENGTH hitung karakter. LENGTH hitung byte (beda untuk UTF-8 multibyte).',code:`SELECT nama, CHAR_LENGTH(nama) AS jml_karakter FROM mahasiswa;
-
--- Nama terpanjang
-SELECT nama, CHAR_LENGTH(nama) AS panjang
-FROM mahasiswa
-ORDER BY CHAR_LENGTH(nama) DESC LIMIT 1;
-
--- Nama terpendek
-SELECT nama, CHAR_LENGTH(nama) AS panjang
-FROM mahasiswa
-ORDER BY CHAR_LENGTH(nama) ASC LIMIT 1;
-
--- Filter panjang tertentu
-SELECT nama FROM mahasiswa WHERE CHAR_LENGTH(nama) > 15;`,detail:`MySQL:
-• LENGTH(str) → jumlah BYTE
-• CHAR_LENGTH(str) → jumlah KARAKTER (Unicode-aware)
-Untuk huruf latin sama, tapi untuk emoji/aksara multibyte bisa berbeda.
-
-PostgreSQL:
-• LENGTH(str) → jumlah karakter (sudah Unicode-aware)
-• OCTET_LENGTH(str) → jumlah byte`},
-
-  {cat:'String',compat:'both',name:'UPPER, LOWER, TRIM',desc:'Ubah huruf besar/kecil dan hapus spasi di awal/akhir string.',tip:'Berguna untuk normalisasi data sebelum insert atau saat compare.',code:`SELECT
-  UPPER('hello')     AS hasil_upper,   -- HELLO
-  LOWER('HELLO')     AS hasil_lower,   -- hello
-  TRIM('  spasi  ')  AS hasil_trim,    -- 'spasi'
-  LTRIM('  kiri')    AS trim_kiri,
-  RTRIM('kanan  ')   AS trim_kanan;
-
--- Compare case-insensitive
-SELECT * FROM mahasiswa
-WHERE LOWER(nama) = LOWER('andi pratama');`,detail:`PostgreSQL punya INITCAP(str):
-INITCAP('budi santoso') → 'Budi Santoso'
-
-MySQL tidak punya INITCAP bawaan — perlu fungsi custom.`},
-
-  {cat:'String',compat:'both',name:'SUBSTRING / SUBSTR',desc:'Ambil sebagian isi string berdasarkan posisi dan panjang.',tip:'Posisi dimulai dari 1, bukan 0 seperti kebanyakan bahasa pemrograman.',code:`-- SUBSTRING(string, posisi_mulai, panjang)
-SELECT SUBSTRING('Informatika', 1, 5);   -- 'Infor'
-SELECT SUBSTRING('Informatika', 6);      -- 'matika'
-
--- Praktis
-SELECT SUBSTRING(kode_pos, 1, 3) AS area FROM alamat;
-SELECT SUBSTR(nama, 1, 5) AS nama_singkat FROM mahasiswa;`,detail:`PostgreSQL bisa SUBSTRING dengan regex:
-SUBSTRING('Nomor: 12345' FROM '[0-9]+') → '12345'
-
-MySQL: pakai REGEXP_SUBSTR (MySQL 8.0+).`},
-
-  {cat:'String',compat:'both',name:'CONCAT & CONCAT_WS',desc:'Gabungkan dua atau lebih string menjadi satu.',tip:'CONCAT_WS (With Separator) otomatis sisipkan pemisah dan skip NULL.',code:`SELECT CONCAT(nama, ' - ', jurusan) AS info FROM mahasiswa;
-
--- CONCAT_WS: separator otomatis, NULL di-skip
-SELECT CONCAT_WS(', ', nama, jurusan, angkatan) AS info
-FROM mahasiswa;
--- Hasil: 'Andi, Informatika, 2021'`,detail:`CONCAT dengan NULL:
-• MySQL:      CONCAT('Andi', NULL, 'x') → NULL
-• PostgreSQL: 'Andi' || NULL || 'x' → NULL
-
-Solusi: pakai CONCAT_WS atau COALESCE:
-CONCAT(COALESCE(nama,''), ' ', COALESCE(gelar,''))`},
-
-  {cat:'String',compat:'both',name:'REPLACE',desc:'Ganti semua kemunculan substring tertentu dalam string.',tip:'Case-sensitive. Tidak bisa pakai regex.',code:`SELECT REPLACE('081234-567-890', '-', '') AS nomor_bersih;
-
--- Ganti di data tabel
-UPDATE mahasiswa
-SET email = REPLACE(email, '@yahoo.com', '@gmail.com')
-WHERE email LIKE '%@yahoo.com';`,detail:`Untuk replace dengan regex:
-• PostgreSQL: REGEXP_REPLACE(str, pattern, replacement, flags)
-  REGEXP_REPLACE(teks, '[0-9]+', 'X', 'g')
-• MySQL 8.0+: REGEXP_REPLACE juga tersedia`},
-
-  {cat:'String',compat:'both',name:'COALESCE & IFNULL',desc:'Kembalikan nilai pertama yang bukan NULL dari daftar argumen.',tip:'COALESCE ada di semua database. IFNULL hanya MySQL.',code:`-- COALESCE: standar SQL, semua DB
-SELECT COALESCE(nickname, nama) AS tampilan FROM mahasiswa;
-
--- IFNULL: MySQL saja (2 argumen)
-SELECT IFNULL(ipk, 0) AS ipk_aman FROM mahasiswa;
-
--- Nilai default
-SELECT COALESCE(alamat, 'Alamat belum diisi') FROM mahasiswa;`,detail:`Perbedaan:
-• COALESCE(a, b, c, d): bisa banyak argumen, standar SQL semua DB
-• IFNULL(a, b): hanya 2 argumen, MySQL only
-
-PostgreSQL: gunakan COALESCE (tidak ada IFNULL)
-MySQL: keduanya tersedia, COALESCE lebih portable`},
-
-  {cat:'String',compat:'mysql',name:'GROUP_CONCAT',desc:'Gabungkan nilai dari banyak baris menjadi satu string. MySQL only.',tip:'Padanannya di PostgreSQL adalah STRING_AGG.',code:`SELECT m.nama,
-  GROUP_CONCAT(mk.nama ORDER BY mk.nama SEPARATOR ', ') AS matkul
-FROM mahasiswa m
-JOIN nilai n ON m.id = n.mahasiswa_id
-JOIN mata_kuliah mk ON n.mk_id = mk.id
-GROUP BY m.id, m.nama;
--- Hasil: Andi → 'Algoritma, Basis Data, Kalkulus'`,detail:`Di PostgreSQL, padanannya STRING_AGG:
-SELECT m.nama,
-  STRING_AGG(mk.nama, ', ' ORDER BY mk.nama) AS matkul
-FROM mahasiswa m ...
-GROUP BY m.id, m.nama;`},
-
-  {cat:'String',compat:'pg',name:'STRING_AGG',desc:'Gabungkan nilai baris menjadi satu string dengan separator. PostgreSQL (dan MySQL 8.0+).',tip:'Lebih fleksibel dari GROUP_CONCAT.',code:`SELECT m.nama,
-  STRING_AGG(mk.nama, ', ' ORDER BY mk.nama) AS matkul
-FROM mahasiswa m
-JOIN nilai n ON m.id = n.mahasiswa_id
-JOIN mata_kuliah mk ON n.mk_id = mk.id
-GROUP BY m.id, m.nama;`,detail:`STRING_AGG vs GROUP_CONCAT:
-• STRING_AGG: PostgreSQL dan MySQL 8.0+, standar SQL lebih baru
-• GROUP_CONCAT: MySQL, lebih lama, lebih banyak opsi`},
-];
-
-// ── SUPABASE CONFIG ───────────────────────────────────
-const SUPABASE_URL = 'https://ownyjduxhwyhnnqpqkza.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93bnlqZHV4aHd5aG5ucXBxa3phIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAzMDM0MTEsImV4cCI6MjA5NTg3OTQxMX0.PMFSl1v-bU_axuD0n0lmTKpOGudNPhzZ1hLuuxGa8rk';
-const API = `${SUPABASE_URL}/rest/v1/cards`;
-const HEADERS = {
-  'apikey': SUPABASE_KEY,
-  'Authorization': `Bearer ${SUPABASE_KEY}`,
-  'Content-Type': 'application/json',
-  'Prefer': 'return=representation'
-};
+let CARDS = [];
 
 // ── TOAST ─────────────────────────────────────────────
 function toast(msg, type='info'){
   const t=document.createElement('div');
-  t.style.cssText=`position:fixed;bottom:24px;right:24px;z-index:9999;padding:10px 18px;border-radius:8px;font-size:13px;font-family:var(--font);box-shadow:0 4px 16px rgba(0,0,0,.15);transition:opacity .4s;background:${type==='ok'?'#EAF3DE':type==='err'?'#FCEBEB':'#E6F1FB'};color:${type==='ok'?'#27500A':type==='err'?'#791F1F':'#0C447C'};border:1px solid ${type==='ok'?'#97C459':type==='err'?'#E8A0A0':'#85B7EB'}`;
+  t.style.cssText=`position:fixed;bottom:64px;right:24px;z-index:9999;padding:10px 18px;border-radius:8px;font-size:13px;font-family:var(--font);box-shadow:0 4px 16px rgba(0,0,0,.15);transition:opacity .4s;background:${type==='ok'?'#EAF3DE':type==='err'?'#FCEBEB':'#E6F1FB'};color:${type==='ok'?'#27500A':type==='err'?'#791F1F':'#0C447C'};border:1px solid ${type==='ok'?'#97C459':type==='err'?'#E8A0A0':'#85B7EB'}`;
   t.textContent=msg;
   document.body.appendChild(t);
   setTimeout(()=>{t.style.opacity='0';setTimeout(()=>t.remove(),400);},2500);
 }
 
-// ── LOADING ───────────────────────────────────────────
 function setLoading(on){
   const el=document.getElementById('load-indicator');
   if(el) el.style.display=on?'flex':'none';
@@ -795,7 +387,7 @@ function setLoading(on){
 async function dbFetch(){
   setLoading(true);
   try {
-    const res=await fetch(`${API}?order=id.asc`,{headers:HEADERS});
+    const res=await fetch(`${API}?order=id.asc`,{headers:getHeaders(false)});
     if(!res.ok) throw new Error(await res.text());
     const rows=await res.json();
     if(rows.length>0){
@@ -805,7 +397,7 @@ async function dbFetch(){
         desc:r.description, tip:r.tip||'', code:r.code||'', detail:r.detail||''
       }));
     } else {
-      document.getElementById('seed-btn').style.display='flex';
+      if(isAdmin) document.getElementById('seed-btn').style.display='flex';
     }
     render();
   } catch(e){
@@ -815,7 +407,7 @@ async function dbFetch(){
 }
 
 async function dbInsert(card){
-  const res=await fetch(API,{method:'POST',headers:HEADERS,
+  const res=await fetch(API,{method:'POST',headers:getHeaders(true),
     body:JSON.stringify({cat:card.cat,compat:card.compat,name:card.name,
       description:card.desc,tip:card.tip,code:card.code,detail:card.detail})});
   if(!res.ok) throw new Error(await res.text());
@@ -823,18 +415,19 @@ async function dbInsert(card){
 }
 
 async function dbUpdate(id,card){
-  const res=await fetch(`${API}?id=eq.${id}`,{method:'PATCH',headers:HEADERS,
+  const res=await fetch(`${API}?id=eq.${id}`,{method:'PATCH',headers:getHeaders(true),
     body:JSON.stringify({cat:card.cat,compat:card.compat,name:card.name,
       description:card.desc,tip:card.tip,code:card.code,detail:card.detail})});
   if(!res.ok) throw new Error(await res.text());
 }
 
 async function dbDelete(id){
-  const res=await fetch(`${API}?id=eq.${id}`,{method:'DELETE',headers:HEADERS});
+  const res=await fetch(`${API}?id=eq.${id}`,{method:'DELETE',headers:getHeaders(true)});
   if(!res.ok) throw new Error(await res.text());
 }
 
 async function seedDB(){
+  if(!isAdmin){toast('Harus login dulu!','err');return;}
   if(!confirm('Kirim semua data default ke database? Lakukan ini hanya sekali.'))return;
   setLoading(true);
   toast('Mengirim data...','info');
@@ -851,9 +444,8 @@ async function seedDB(){
   } finally { setLoading(false); }
 }
 
-// ── helpers ──────────────────────────────────────────
+// ── helpers ───────────────────────────────────────────
 function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-
 function colorCode(raw){
   const kws=['CREATE TABLE','ALTER TABLE','DROP TABLE','TRUNCATE TABLE','CREATE INDEX','DROP INDEX',
     'INSERT INTO','ON DUPLICATE KEY UPDATE','ON CONFLICT','DO UPDATE SET','DO NOTHING',
@@ -884,7 +476,7 @@ function colorCode(raw){
   return s;
 }
 
-// ── categories ───────────────────────────────────────
+// ── categories ────────────────────────────────────────
 const catsEl=document.getElementById('cats');
 CATS.forEach(c=>{
   const b=document.createElement('button');
@@ -918,12 +510,14 @@ function render(){
     return mc&&mq;
   });
   document.getElementById('cnt').textContent=filtered.length+' query ditampilkan';
+
   document.getElementById('grid').innerHTML=filtered.map(({d,i})=>`
     <div class="card">
+      ${isAdmin ? `
       <div class="card-edit-btn">
         <button onclick="openEditModal(${i})" title="Edit"><i class="ti ti-edit"></i></button>
         <button class="del-btn" onclick="deleteCardAt(${i})" title="Hapus"><i class="ti ti-trash"></i></button>
-      </div>
+      </div>` : ''}
       <div class="card-head">
         <div class="badges">
           <span class="badge ${badgeMap[d.cat]||'b-adv'}">${esc(d.cat)}</span>
@@ -935,24 +529,28 @@ function render(){
       <div class="code-wrap"><div class="code-block">${colorCode(d.code)}</div></div>
       <div class="tip"><i class="ti ti-bulb"></i><span>${esc(d.tip)}</span></div>
       ${d.detail?`
-      <div class="divider"></div>
-      <button class="expand-btn" id="db-${i}" onclick="toggleDetail(${i})">
-        <i class="ti ti-chevron-down chevron"></i><span class="lbl">Detail +</span>
-      </button>
-      <div class="detail-panel" id="dp-${i}">
-        <div class="detail-content">${esc(d.detail)}</div>
-      </div>`:''}
+        <div class="divider"></div>
+        <button class="expand-btn" id="db-${i}" onclick="toggleDetail(${i})">
+          <i class="ti ti-chevron-down chevron"></i><span class="lbl">Detail +</span>
+        </button>
+        <div class="detail-panel" id="dp-${i}">
+          <div class="detail-content">${esc(d.detail)}</div>
+        </div>`:''}
     </div>
   `).join('');
 }
 
 // ── add modal ─────────────────────────────────────────
-function openAddModal(){document.getElementById('add-modal').classList.add('show');}
+function openAddModal(){
+  if(!isAdmin){toast('Harus login dulu!','err');return;}
+  document.getElementById('add-modal').classList.add('show');
+}
 function closeAddModal(){
   document.getElementById('add-modal').classList.remove('show');
   ['a-name','a-desc','a-code','a-tip','a-detail'].forEach(id=>document.getElementById(id).value='');
 }
 async function addCard(){
+  if(!isAdmin){toast('Harus login dulu!','err');return;}
   const name=document.getElementById('a-name').value.trim();
   if(!name){alert('Nama query wajib diisi!');return;}
   const card={name,cat:document.getElementById('a-cat').value,
@@ -975,6 +573,7 @@ async function addCard(){
 // ── edit modal ────────────────────────────────────────
 let editingIdx=null;
 function openEditModal(idx){
+  if(!isAdmin){return;}
   editingIdx=idx;
   const d=CARDS[idx];
   document.getElementById('e-idx').value=idx;
@@ -992,6 +591,7 @@ function closeEditModal(){
   editingIdx=null;
 }
 async function saveEdit(){
+  if(!isAdmin){toast('Harus login dulu!','err');return;}
   const idx=parseInt(document.getElementById('e-idx').value);
   const name=document.getElementById('e-name').value.trim();
   if(!name){alert('Nama tidak boleh kosong!');return;}
@@ -1003,42 +603,41 @@ async function saveEdit(){
     detail:document.getElementById('e-detail').value};
   try {
     setLoading(true);
-    const existingId=CARDS[idx]._id;
-    if(existingId) await dbUpdate(existingId,card);
-    card._id=existingId;
+    if(CARDS[idx]._id) await dbUpdate(CARDS[idx]._id, card);
+    card._id=CARDS[idx]._id;
     CARDS[idx]=card;
     closeEditModal(); render();
-    toast('Kartu diupdate!','ok');
+    toast('Perubahan disimpan!','ok');
   } catch(e){toast('Gagal update: '+e.message,'err');}
   finally{setLoading(false);}
 }
+
 async function deleteCard(){
+  if(!isAdmin){return;}
+  if(!confirm('Hapus kartu ini?'))return;
   const idx=parseInt(document.getElementById('e-idx').value);
-  if(!confirm(`Hapus "${CARDS[idx].name}"?`))return;
   try {
     setLoading(true);
-    const existingId=CARDS[idx]._id;
-    if(existingId) await dbDelete(existingId);
+    if(CARDS[idx]._id) await dbDelete(CARDS[idx]._id);
     CARDS.splice(idx,1);
     closeEditModal(); render();
     toast('Kartu dihapus.','ok');
   } catch(e){toast('Gagal hapus: '+e.message,'err');}
   finally{setLoading(false);}
 }
+
 async function deleteCardAt(idx){
-  if(!confirm(`Hapus "${CARDS[idx].name}"?`))return;
+  if(!isAdmin){return;}
+  if(!confirm('Hapus kartu "'+CARDS[idx].name+'"?'))return;
   try {
     setLoading(true);
-    const existingId=CARDS[idx]._id;
-    if(existingId) await dbDelete(existingId);
-    CARDS.splice(idx,1); render();
+    if(CARDS[idx]._id) await dbDelete(CARDS[idx]._id);
+    CARDS.splice(idx,1);
+    render();
     toast('Kartu dihapus.','ok');
   } catch(e){toast('Gagal hapus: '+e.message,'err');}
   finally{setLoading(false);}
 }
-
-document.getElementById('add-modal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeAddModal();});
-document.getElementById('edit-modal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeEditModal();});
 
 // ── INIT ──────────────────────────────────────────────
 dbFetch();
