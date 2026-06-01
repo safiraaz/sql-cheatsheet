@@ -191,6 +191,10 @@ h1{font-size:22px;font-weight:500;margin-bottom:4px}
   <div class="modal" style="max-width:340px">
     <h3>Admin Login</h3>
     <div class="field">
+      <label>Username Admin</label>
+      <input type="text" id="login-username" placeholder="Masukkan username admin">
+    </div>
+    <div class="field">
       <label>Email</label>
       <input type="email" id="login-email" placeholder="email@kamu.com" autocomplete="username">
     </div>
@@ -277,23 +281,37 @@ function getHeaders(write = false) {
 }
 
 // ── AUTH ──────────────────────────────────────────────
+const ADMIN_USERNAME = "Peacze";
 function openLoginModal() {
-  if (isAdmin) return; // sudah login, tidak perlu buka lagi
+  if (isAdmin) return;
   document.getElementById('login-modal').classList.add('show');
-  setTimeout(() => document.getElementById('login-email').focus(), 100);
+  setTimeout(() => document.getElementById('login-username').focus(), 100); 
 }
 function closeLoginModal() {
   document.getElementById('login-modal').classList.remove('show');
   document.getElementById('login-err').style.display = 'none';
+  document.getElementById('login-username').value = '';
+  document.getElementById('login-email').value = '';
+  document.getElementById('login-pass').value = '';
 }
 
 async function doLogin() {
+  const username = document.getElementById('login-username').value.trim();
   const email = document.getElementById('login-email').value.trim();
   const pass  = document.getElementById('login-pass').value;
   const errEl = document.getElementById('login-err');
   const btn   = document.getElementById('login-btn');
-  if (!email || !pass) { showErr('Email dan password wajib diisi.'); return; }
-
+  
+  // Ganti baris pengecekan kosong menjadi ini:
+if (!username || !email || !pass) { 
+  showErr('Username, Email, dan Password wajib diisi!'); 
+  return; 
+}
+  if (username !== ADMIN_USERNAME) {
+  showErr('Username Admin salah! Akses ditolak.');
+  return; // Berhenti di sini, tidak lanjut panggil Supabase
+}
+  
   btn.textContent = 'Masuk...';
   btn.disabled = true;
   errEl.style.display = 'none';
