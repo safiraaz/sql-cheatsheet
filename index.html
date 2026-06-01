@@ -763,6 +763,8 @@ JOIN nilai n ON m.id = n.mahasiswa_id
 JOIN mata_kuliah mk ON n.mk_id = mk.id
 GROUP BY m.id, m.nama;`,detail:`STRING_AGG vs GROUP_CONCAT:
 • STRING_AGG: PostgreSQL dan MySQL 8.0+, standar SQL lebih baru
+- GROUP_CONCAT: MySQL, lebih lama, lebih banyak opsi`},
+];
 
 // ── SUPABASE CONFIG ───────────────────────────────────
 const SUPABASE_URL = 'https://ownyjduxhwyhnnqpqkza.supabase.co';
