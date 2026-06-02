@@ -194,7 +194,7 @@ h1 {
   border-color: var(--border2);
 }
 
-.card:hover .card-edit-btn {
+body.is-admin .card:hover .card-edit-btn {
   opacity: 1;
 }
 
@@ -206,6 +206,7 @@ h1 {
   transition: opacity .15s;
   display: flex;
   gap: 4px;
+  z-index: 10;
 }
 
 .card-edit-btn button {
@@ -268,6 +269,9 @@ h1 {
 .b-mysql { background: var(--blue-bg); color: var(--blue-text); }
 .b-pg { background: var(--green-bg); color: var(--green-text); }
 .b-both { background: var(--gray-bg); color: var(--gray-text); }
+.b-db2 { background: #EDE9FE; color: #4C1D95; }
+.b-oracle { background: #FEF3C7; color: #92400E; }
+.b-mssql { background: #FCE7F3; color: #831843; }
 
 .card-title {
   font-size: 13px;
@@ -589,4 +593,9 @@ h1 {
   body { padding: 16px; }
   box-shadow: none;
   .card { break-inside: avoid; }
+}
+
+.ti-loader-2 {
+  animation: spin 1s linear infinite;
+  display: inline-block;
 }
