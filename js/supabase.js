@@ -4,9 +4,9 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 const API          = `${SUPABASE_URL}/rest/v1/cards`;
 const AUTH_URL     = `${SUPABASE_URL}/auth/v1`;
 
-// ── AUTH STATE ────────────────────────────────────────
-let accessToken = null;   // null = belum login
-let isAdmin = false;
+// ── AUTH STATE (MENGGUNAKAN LOCALSTORAGE AGAR ANTI-REFRESH) ──
+let accessToken = localStorage.getItem('sql_admin_token') || null; 
+let isAdmin = accessToken ? true : false;
 
 // ── HEADERS ───────────────────────────────────────────
 function getHeaders(write = false) {
@@ -22,7 +22,12 @@ function getHeaders(write = false) {
 function openLoginModal() {
   if (isAdmin) return; 
   document.getElementById('login-modal').classList.add('show');
-  setTimeout(() => document.getElementById('login-email').focus(), 100);
+  
+  // Matikan autocomplete secara paksa lewat JS agar tidak bocor ke input search #q
+  const emailInput = document.getElementById('login-email');
+  emailInput.setAttribute('autocomplete', 'new-password'); 
+  
+  setTimeout(() => emailInput.focus(), 100);
 }
 
 function closeLoginModal() {
@@ -31,10 +36,13 @@ function closeLoginModal() {
 }
 
 async function doLogin() {
-  const email = document.getElementById('login-email').value.trim();
-  const pass  = document.getElementById('login-pass').value;
+  const emailEl = document.getElementById('login-email');
+  const passEl  = document.getElementById('login-pass');
   const errEl = document.getElementById('login-err');
   const btn   = document.getElementById('login-btn');
+  
+  const email = emailEl.value.trim();
+  const pass  = passEl.value;
   
   if (!email || !pass) { 
     showErr('Email dan password wajib diisi.'); 
@@ -54,8 +62,15 @@ async function doLogin() {
     const data = await res.json();
     if (!res.ok) throw new Error(data.error_description || data.msg || 'Login gagal');
 
+    // Simpan token ke state dan localStorage browser
     accessToken = data.access_token;
+    localStorage.setItem('sql_admin_token', accessToken);
     isAdmin = true;
+    
+    // Bersihkan form login agar tidak menempel di memori browser/search bar
+    emailEl.value = '';
+    passEl.value = '';
+
     closeLoginModal();
     setAdminUI(true);
     toast('Login berhasil! Selamat datang, admin.', 'ok');
@@ -74,40 +89,52 @@ async function doLogin() {
 }
 
 function adminLogout() {
+  // Hapus token dari memori dan localStorage
   accessToken = null;
+  localStorage.removeItem('sql_admin_token');
   isAdmin = false;
+  
   setAdminUI(false);
   toast('Logout berhasil.', 'info');
   render();
 }
 
 function setAdminUI(on) {
-  if (on) { document.body.classList.add('is-admin'); } 
-  else { document.body.classList.remove('is-admin'); }
-  
+  if (on) {
+    document.body.classList.add('is-admin');
+  } else {
+    document.body.classList.remove('is-admin');
+  }
+
   document.getElementById('admin-badge').style.display = on ? 'flex' : 'none';
   document.getElementById('btn-add-card').style.display = on ? 'flex' : 'none';
   
   const fab = document.getElementById('admin-fab');
-  fab.innerHTML = on ? '<i class="ti ti-shield-check"></i>' : '<i class="ti ti-lock"></i>';
-  fab.title = on ? 'Sudah login sebagai admin' : 'Admin login';
-  fab.onclick = on ? adminLogout : openLoginModal;
-  fab.style.opacity = on ? '0.9' : '0.4';
-  
-  if (on) {
-    fab.style.background = 'var(--teal-bg)';
-    fab.style.color = 'var(--teal-text)';
-    fab.style.borderColor = '#7DC9AF';
-  } else {
-    fab.style.background = 'var(--bg2)';
-    fab.style.color = 'var(--text3)';
-    fab.style.borderColor = 'var(--border)';
+  if (fab) {
+    fab.innerHTML = on ? '<i class="ti ti-shield-check"></i>' : '<i class="ti ti-lock"></i>';
+    fab.title = on ? 'Sudah login sebagai admin' : 'Admin login';
+    fab.onclick = on ? adminLogout : openLoginModal;
+    fab.style.opacity = on ? '0.9' : '0.4';
+    
+    if (on) {
+      fab.style.background = 'var(--teal-bg)';
+      fab.style.color = 'var(--teal-text)';
+      fab.style.borderColor = '#7DC9AF';
+    } else {
+      fab.style.background = 'var(--bg2)';
+      fab.style.color = 'var(--text3)';
+      fab.style.borderColor = 'var(--border)';
+    }
   }
 }
 
 // ── CRUD DATABASE OPERATIONS ──────────────────────────
 async function dbFetch(){
   setLoading(true);
+  
+  // Fungsi penyeimbang: Cek status login saat halaman pertama kali dimuat/di-refresh
+  setAdminUI(isAdmin);
+
   try {
     const res = await fetch(`${API}?order=id.asc`, { headers: getHeaders(false) });
     if(!res.ok) throw new Error(await res.text());
@@ -119,7 +146,7 @@ async function dbFetch(){
         desc: r.description, tip: r.tip || '', code: r.code || '', detail: r.detail || ''
       }));
     } else {
-      document.getElementById('seed-btn').style.display = 'flex'; // Munculkan saja agar siapa pun/admin bisa seed awal
+      document.getElementById('seed-btn').style.display = 'flex';
     }
     render();
   } catch(e){
