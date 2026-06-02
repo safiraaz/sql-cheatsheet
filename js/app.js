@@ -16,6 +16,13 @@ function esc(s){
   return (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
+function renderCompatBadges(tags) {
+  if(!tags) return '';
+  return tags.split(',').map(t => t.trim()).filter(t=>DB_LABELS[t]).map(t =>
+    `<span class="badge ${DB_LABELS[t].cls}">${DB_LABELS[t].label}</span>`
+  ).join('');
+}
+
 function colorCode(raw){
   const kws = [
     'CREATE TABLE','ALTER TABLE','DROP TABLE','TRUNCATE TABLE','CREATE INDEX','DROP INDEX',
@@ -87,15 +94,14 @@ function render(){
 
   document.getElementById('grid').innerHTML = filtered.map(({d, i}) => `
     <div class="card">
-      ${isAdmin ? `
       <div class="card-edit-btn">
         <button onclick="openEditModal(${i})" title="Edit"><i class="ti ti-edit"></i></button>
         <button class="del-btn" onclick="deleteCardAt(${i})" title="Hapus"><i class="ti ti-trash"></i></button>
-      </div>` : ''}
+      </div>
       <div class="card-head">
         <div class="badges">
           <span class="badge ${badgeMap[d.cat] || 'b-adv'}">${esc(d.cat)}</span>
-          ${compatBadge[d.compat] || ''}
+          ${renderCompatBadges(d.compat_tags || d.compat)}
         </div>
         <div class="card-title">${esc(d.name)}</div>
       </div>
@@ -130,10 +136,14 @@ async function addCard(){
   const name = document.getElementById('a-name').value.trim();
   if(!name){ alert('Nama query wajib diisi!'); return; }
   
+  const dbs = ['mysql','pg','db2','oracle','mssql'];
+  const tags = dbs.filter(db => document.getElementById('a-c-' + db).checked).join(',');
+  
   const card = {
     name, 
     cat: document.getElementById('a-cat').value,
-    compat: document.getElementById('a-compat').value,
+    compat: tags,
+    compat_tags: tags,
     desc: document.getElementById('a-desc').value,
     code: document.getElementById('a-code').value,
     tip: document.getElementById('a-tip').value,
@@ -165,7 +175,12 @@ function openEditModal(idx){
   document.getElementById('e-idx').value = idx;
   document.getElementById('e-name').value = d.name || '';
   document.getElementById('e-cat').value = d.cat || 'DQL';
-  document.getElementById('e-compat').value = d.compat || 'both';
+  
+  const activeTags = (d.compat_tags || d.compat || 'mysql,pg').split(',');
+  ['mysql','pg','db2','oracle','mssql'].forEach(db => {
+    document.getElementById('e-c-' + db).checked = activeTags.includes(db);
+  });
+  
   document.getElementById('e-desc').value = d.desc || '';
   document.getElementById('e-code').value = d.code || '';
   document.getElementById('e-tip').value = d.tip || '';
@@ -184,10 +199,14 @@ async function saveEdit(){
   const name = document.getElementById('e-name').value.trim();
   if(!name){ alert('Nama tidak boleh kosong!'); return; }
 
+  const dbs = ['mysql','pg','db2','oracle','mssql'];
+  const tags = dbs.filter(db => document.getElementById('e-c-' + db).checked).join(',');
+
   const card = {
     name, 
     cat: document.getElementById('e-cat').value,
-    compat: document.getElementById('e-compat').value,
+    compat: tags,
+    compat_tags: tags,
     desc: document.getElementById('e-desc').value,
     code: document.getElementById('e-code').value,
     tip: document.getElementById('e-tip').value,
