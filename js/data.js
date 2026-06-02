@@ -1,4 +1,4 @@
-const CATS = ["Semua", "DDL", "DML", "DQL", "JOIN", "Agregasi", "Subquery", "Advanced", "String"];
+const CATS = ["Semua","DDL","DML","DQL","JOIN","Agregasi","Subquery","Advanced","String"];
 
 const badgeMap = {
   DDL: 'b-ddl',
@@ -11,12 +11,13 @@ const badgeMap = {
   String: 'b-str'
 };
 
-const compatBadge = {
-  mysql: '<span class="badge b-mysql">MySQL</span>',
-  pg: '<span class="badge b-pg">PostgreSQL</span>',
-  both: '<span class="badge b-both">MySQL + PG</span>'
+const DB_LABELS = {
+  mysql:  {label:'MySQL',      cls:'b-mysql'},
+  pg:     {label:'PostgreSQL', cls:'b-pg'},
+  db2:    {label:'DB2',        cls:'b-db2'},
+  oracle: {label:'Oracle',     cls:'b-oracle'},
+  mssql:  {label:'MS SQL',     cls:'b-mssql'},
 };
 
-// State global data card
+// State global data card (kosong karena akan diisi dari Supabase)
 let CARDS = [];
-let activeCatVal = 'Semua';
