@@ -21,3 +21,4 @@ const DB_LABELS = {
 
 // State global data card (kosong karena akan diisi dari Supabase)
 let CARDS = [];
+let activeCatVal = 'Semua';
