@@ -28,7 +28,9 @@
 <div class="guide" id="guide">
   <button class="guide-close" onclick="document.getElementById('guide').style.display='none'" aria-label="Tutup"><i class="ti ti-x"></i></button>
   <strong>Cara pakai:</strong> Filter per kategori atau cari nama query di kotak pencarian.<br>
-  Badge <span class="badge b-mysql" style="display:inline-block">MySQL</span> <span class="badge b-pg" style="display:inline-block">PostgreSQL</span> <span class="badge b-both" style="display:inline-block">MySQL + PG</span> = kompatibilitas database.
+  <strong>Edit kartu:</strong> Hover kartu → klik ikon <i class="ti ti-edit" style="font-size:12px"></i> untuk edit semua isi atau <i class="ti ti-trash" style="font-size:12px"></i> untuk hapus.<br>
+  <strong>Tambah query baru:</strong> Klik <strong>+ Tambah Query</strong> di pojok kanan.<br>
+  Badge <span class="badge b-mysql" style="display:inline-block">MySQL</span> <span class="badge b-pg" style="display:inline-block">PostgreSQL</span> <span class="badge b-db2" style="display:inline-block">DB2</span> <span class="badge b-oracle" style="display:inline-block">Oracle</span> <span class="badge b-mssql" style="display:inline-block">MS SQL</span> = kompatibilitas database.
 </div>
 
 <div class="controls">
@@ -84,8 +86,14 @@
     <div class="field"><label>Kategori</label>
       <select id="a-cat"><option>DDL</option><option>DML</option><option selected>DQL</option><option>JOIN</option><option>Agregasi</option><option>Subquery</option><option>Advanced</option><option>String</option></select>
     </div>
-    <div class="field"><label>Kompatibilitas</label>
-      <select id="a-compat"><option value="both">Keduanya (MySQL + PostgreSQL)</option><option value="mysql">MySQL saja</option><option value="pg">PostgreSQL saja</option></select>
+    <div class="field"><label>Kompatibilitas database</label>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:4px">
+        <label style="display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer"><input type="checkbox" id="a-c-mysql" value="mysql" checked> MySQL</label>
+        <label style="display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer"><input type="checkbox" id="a-c-pg" value="pg" checked> PostgreSQL</label>
+        <label style="display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer"><input type="checkbox" id="a-c-db2" value="db2"> DB2</label>
+        <label style="display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer"><input type="checkbox" id="a-c-oracle" value="oracle"> Oracle</label>
+        <label style="display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer"><input type="checkbox" id="a-c-mssql" value="mssql"> MS SQL Server</label>
+      </div>
     </div>
     <div class="field"><label>Deskripsi singkat</label><input type="text" id="a-desc" placeholder="Satu kalimat penjelasan fungsinya"></div>
     <div class="field"><label>Contoh kode SQL</label><textarea class="code-input" id="a-code" placeholder="SELECT ..."></textarea></div>
@@ -109,8 +117,14 @@
     <div class="field"><label>Kategori</label>
       <select id="e-cat"><option>DDL</option><option>DML</option><option>DQL</option><option>JOIN</option><option>Agregasi</option><option>Subquery</option><option>Advanced</option><option>String</option></select>
     </div>
-    <div class="field"><label>Kompatibilitas</label>
-      <select id="e-compat"><option value="both">Keduanya (MySQL + PostgreSQL)</option><option value="mysql">MySQL saja</option><option value="pg">PostgreSQL saja</option></select>
+    <div class="field"><label>Kompatibilitas database</label>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:4px">
+        <label style="display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer"><input type="checkbox" id="e-c-mysql" value="mysql"> MySQL</label>
+        <label style="display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer"><input type="checkbox" id="e-c-pg" value="pg"> PostgreSQL</label>
+        <label style="display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer"><input type="checkbox" id="e-c-db2" value="db2"> DB2</label>
+        <label style="display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer"><input type="checkbox" id="e-c-oracle" value="oracle"> Oracle</label>
+        <label style="display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer"><input type="checkbox" id="e-c-mssql" value="mssql"> MS SQL Server</label>
+      </div>
     </div>
     <div class="field"><label>Deskripsi singkat</label><input type="text" id="e-desc"></div>
     <div class="field"><label>Contoh kode SQL</label><textarea class="code-input" id="e-code"></textarea></div>
