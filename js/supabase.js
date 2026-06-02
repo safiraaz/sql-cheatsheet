@@ -71,6 +71,10 @@ async function doLogin() {
     emailEl.value = '';
     passEl.value = '';
 
+    // Bersihkan search bar utama dari sisa kelakuan autofill browser
+    const searchInput = document.getElementById('q');
+    if (searchInput) searchInput.value = ''; 
+
     closeLoginModal();
     setAdminUI(true);
     toast('Login berhasil! Selamat datang, admin.', 'ok');
@@ -81,7 +85,7 @@ async function doLogin() {
     btn.textContent = 'Masuk';
     btn.disabled = false;
   }
-
+  
   function showErr(msg) {
     errEl.textContent = msg;
     errEl.style.display = 'block';
