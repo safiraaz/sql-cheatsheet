@@ -82,6 +82,9 @@ function adminLogout() {
 }
 
 function setAdminUI(on) {
+  if (on) { document.body.classList.add('is-admin'); } 
+  else { document.body.classList.remove('is-admin'); }
+  
   document.getElementById('admin-badge').style.display = on ? 'flex' : 'none';
   document.getElementById('btn-add-card').style.display = on ? 'flex' : 'none';
   
@@ -112,11 +115,11 @@ async function dbFetch(){
     if(rows.length > 0){
       CARDS.length = 0;
       rows.forEach(r => CARDS.push({
-        _id: r.id, cat: r.cat, compat: r.compat, name: r.name,
+        _id: r.id, cat: r.cat, compat: r.compat, compat_tags: r.compat_tags || r.compat || 'mysql,pg', name: r.name,
         desc: r.description, tip: r.tip || '', code: r.code || '', detail: r.detail || ''
       }));
     } else {
-      if(isAdmin) document.getElementById('seed-btn').style.display = 'flex';
+      document.getElementById('seed-btn').style.display = 'flex'; // Munculkan saja agar siapa pun/admin bisa seed awal
     }
     render();
   } catch(e){
@@ -130,7 +133,7 @@ async function dbInsert(card){
     method: 'POST',
     headers: getHeaders(true),
     body: JSON.stringify({
-      cat: card.cat, compat: card.compat, name: card.name,
+      cat: card.cat, compat: card.compat, compat_tags: card.compat_tags || card.compat, name: card.name,
       description: card.desc, tip: card.tip, code: card.code, detail: card.detail
     })
   });
@@ -143,7 +146,7 @@ async function dbUpdate(id, card){
     method: 'PATCH',
     headers: getHeaders(true),
     body: JSON.stringify({
-      cat: card.cat, compat: card.compat, name: card.name,
+      cat: card.cat, compat: card.compat, compat_tags: card.compat_tags || card.compat, name: card.name,
       description: card.desc, tip: card.tip, code: card.code, detail: card.detail
     })
   });
